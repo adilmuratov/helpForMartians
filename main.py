@@ -15,7 +15,7 @@ def generator_of_means(a):
             a.append(helper)
 
 #function which will convert list to row
-def converter(a):
+def converter_list(a):
     row = ""
     for i in range(len(a)):
         if i != len(a) - 1:
@@ -31,16 +31,37 @@ root = tk.Tk()
 
 #CHARACTERISTICS OF WINDOW
 root.title("Help for martians")
-root.geometry("500x400+250+100")
+root.geometry("600x400+250+100")
 root.resizable(False, False)
 
 #LABELS
-first_row = tk.Label(text = "Coordinates of boxes:", font = ("Arial", 14))
-row_with_coordinates = tk.Label(text = converter(coordinates_of_boxes), font = ("Arial", 14))
+first_row = tk.Label(
+    text = "Coordinates of boxes:",
+    font = ("Arial", 14))
+row_with_coordinates = tk.Label(text = converter_list(coordinates_of_boxes), font = ("Arial", 14))
+how_enter = tk.Label(text = "Enter coordinates without commas:", font = ("Arial", 14))
+correct_answer = tk.Label(text = "We found boxes!", font = ("Arial", 14))
+incorrect_answer = tk.Label(text = "Oh no boxes moved!", font = ("Arial", 14))
 
 #FUNCTIONS FOR BUTTONS
+def checker():
+    global coordinates_of_boxes
+
+    if set() == set(coordinates_of_boxes):
+        first_row.grid_forget()
+        row_with_coordinates.grid_forget()
+        how_enter.grid_forget()
+        place_for_numbers.grid_forget()
+        button_check.grid_forget()
+
+        button_complete.grid(row = 1, column = 1, stick = "e")
+
+def completer():
+    root.destroy()
 
 #BUTTONS
+button_check = tk.Button(text = "check", command = checker, font = ("Arial", 14))
+button_complete = tk.Button(text = "complete", command = completer, font = ("Arial", 14))
 
 #ENTRIES
 place_for_numbers = tk.Entry(font = ("Arial", 14))
@@ -48,6 +69,8 @@ place_for_numbers = tk.Entry(font = ("Arial", 14))
 #PLACEMENT OF OBJECTS
 first_row.grid(row = 0, column = 0)
 row_with_coordinates.grid(row = 0, column = 1)
-place_for_numbers.grid(row = 2, column = 0)
+how_enter.grid(row = 1, column = 0)
+place_for_numbers.grid(row = 1, column = 1)
+button_check.grid(row = 2, column = 1, stick = "e")
 
 root.mainloop()
