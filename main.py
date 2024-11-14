@@ -35,26 +35,49 @@ root.geometry("600x400+250+100")
 root.resizable(False, False)
 
 #LABELS
-first_row = tk.Label(
-    text = "Coordinates of boxes:",
-    font = ("Arial", 14))
+first_row = tk.Label(text = "Coordinates of boxes:", font = ("Arial", 14))
 row_with_coordinates = tk.Label(text = converter_list(coordinates_of_boxes), font = ("Arial", 14))
 how_enter = tk.Label(text = "Enter coordinates without commas:", font = ("Arial", 14))
 correct_answer = tk.Label(text = "We found boxes!", font = ("Arial", 14))
-incorrect_answer = tk.Label(text = "Oh no boxes moved!", font = ("Arial", 14))
+incorrect_answer = tk.Label(text = "Oh no boxes moved!", font = ("Arial", 14), foreground = "red")
 
 #FUNCTIONS FOR BUTTONS
 def checker():
     global coordinates_of_boxes
 
-    if set() == set(coordinates_of_boxes):
-        first_row.grid_forget()
-        row_with_coordinates.grid_forget()
-        how_enter.grid_forget()
-        place_for_numbers.grid_forget()
-        button_check.grid_forget()
+    is_digit = False
+    mean = place_for_numbers.get()
+    mean = mean.split()
+    sumer = 0
+    for i in mean:
+        if i.isdigit():
+            sumer += 1
+    if sumer == len(mean):
+        is_digit = True
 
-        button_complete.grid(row = 1, column = 1, stick = "e")
+    if is_digit:
+        for i in range(len(mean)):
+            mean[i] = int(mean[i])
+
+        if set(mean) == set(coordinates_of_boxes):
+            first_row.grid_forget()
+            row_with_coordinates.grid_forget()
+            how_enter.grid_forget()
+            place_for_numbers.grid_forget()
+            button_check.grid_forget()
+
+            correct_answer.grid(row = 0, column = 0)
+            button_complete.grid(row = 1, column = 1, stick = "e")
+        else:
+            place_for_numbers.delete(0, tk.END)
+            incorrect_answer.grid(row=3, column=0)
+            generator_of_means(coordinates_of_boxes)
+            row_with_coordinates["text"] = converter_list(coordinates_of_boxes)
+    else:
+        place_for_numbers.delete(0, tk.END)
+        incorrect_answer.grid(row = 3, column = 0)
+        generator_of_means(coordinates_of_boxes)
+        row_with_coordinates["text"] = converter_list(coordinates_of_boxes)
 
 def completer():
     root.destroy()
