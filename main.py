@@ -65,6 +65,7 @@ def checker():
             how_enter.grid_forget()
             place_for_numbers.grid_forget()
             button_check.grid_forget()
+            incorrect_answer.grid_forget()
 
             correct_answer.grid(row = 0, column = 0)
             button_complete.grid(row = 1, column = 1, stick = "e")
